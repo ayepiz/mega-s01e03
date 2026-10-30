@@ -2,7 +2,7 @@
 layout: runbook
 title: '#4471 · three problems, not one'
 owner: Alex Yepiz
-status: resolved
+status: open
 reviewed: 2026-10-29
 signature: Alex Yepiz (ayepiz)
 ---
@@ -21,10 +21,19 @@ merged on subject line ([decision 0001](/kb/decisions/0001-dedupe-by-subject)), 
 about a wrong date landed in one ticket, whatever broke it. Read by tenant, channel and body,
 the ticket holds three problems, and the queued parser fix closes only one of them.
 
-<Callout>
-Resolved. #4471 held three problems, not one. Each had a ticket of its own, and all three tickets
-are closed now that the desk's work on #4471 is done.
+<Callout kind="warn">
+#4471 is closed, but it held three problems, not one. Two are settled; the one-day move is
+still open.
 </Callout>
+
+## Where each problem stands
+
+Engineering closed #4471 on 5 October.
+
+- `parser`: **fixed** by `fix(dates): parse dd/mm for eu locales`. Its ticket is closed as
+  completed.
+- `hint`: **won't fix**. The booking-v3 form is retired. Its ticket is closed as not planned.
+- `one-day`: **open**. Neither change moves a date by one day, so its ticket stays open.
 
 ## What #4471 holds
 
@@ -62,8 +71,8 @@ across them.
 
 ## For the desk
 
-- The three tickets are closed. A new report about a wrong date is not a duplicate of any of
-  them until someone reads it: open a new ticket.
+- Closing #4471 did not close the one-day move. Merge new one-day reports into its ticket,
+  not into #4471.
 - `parser`, `hint` and `one-day` are separate causes. A fix for one does not close the others.
 - When a report reads as a one-day move, it is not a duplicate of #4471, whatever its subject.
 - Decision 0001 merges on subject. Here that hid two problems since April. A new decision
