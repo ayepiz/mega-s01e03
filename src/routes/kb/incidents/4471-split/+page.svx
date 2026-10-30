@@ -2,7 +2,7 @@
 layout: runbook
 title: '#4471 · three problems, not one'
 owner: Alex Yepiz
-status: open
+status: resolved
 reviewed: 2026-10-29
 signature: Alex Yepiz (ayepiz)
 ---
@@ -21,8 +21,9 @@ merged on subject line ([decision 0001](/kb/decisions/0001-dedupe-by-subject)), 
 about a wrong date landed in one ticket, whatever broke it. Read by tenant, channel and body,
 the ticket holds three problems, and the queued parser fix closes only one of them.
 
-<Callout kind="warn">
-Not known. Three problems, one fix queued. Each now has a ticket of its own.
+<Callout>
+Resolved. #4471 held three problems, not one. Each had a ticket of its own, and all three tickets
+are closed now that the desk's work on #4471 is done.
 </Callout>
 
 ## What #4471 holds
@@ -61,7 +62,9 @@ across them.
 
 ## For the desk
 
-- Keep #4471 for `parser`. Do not close the other two when its fix ships.
+- The three tickets are closed. A new report about a wrong date is not a duplicate of any of
+  them until someone reads it: open a new ticket.
+- `parser`, `hint` and `one-day` are separate causes. A fix for one does not close the others.
 - When a report reads as a one-day move, it is not a duplicate of #4471, whatever its subject.
 - Decision 0001 merges on subject. Here that hid two problems since April. A new decision
   record should replace it; this page does not edit it.
