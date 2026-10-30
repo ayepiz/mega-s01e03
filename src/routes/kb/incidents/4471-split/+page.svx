@@ -45,7 +45,8 @@ hint asks. #4471's own table marks this group "not this ticket — no ticket of 
 Monday 11 May; a client in Lisbon gets Tuesday and one in Toronto gets Monday; an invite
 arrives before the booking was made. No month/day flip moves a date by one day, so neither fix
 above closes these. The desk already read them this way (`desk-notes.json`) and the #4471 table
-footnotes them, but counts them under `parser`. They point at time zones or a date conversion
+footnotes them and counts them under `parser`, where their tenant files them. The table keeps
+that count and gives them a row of their own. They point at time zones or a date conversion
 across them.
 
 ## How the numbers are made
@@ -53,7 +54,8 @@ across them.
 - The export has repeated rows, because pages overlap; each report counts once by id.
 - `parser` and `hint` come from `causeOf` in `causes.ts`: tenant locale and booking form, never
   intake's tag. Intake's tag disagrees with the cause in both directions.
-- `one-day` is the desk's list in `desk-notes.json`, taken out before `causeOf` runs.
+- `one-day` is the desk's list in `desk-notes.json`. Those reports stay counted under the cause
+  their tenant files them under, as in #4471's own table, so the filed rows add up to the ticket.
 - The table recomputes all of it from the export on every build. If the desk merges more
   reports into #4471, the numbers move with it; the words here do not need to.
 
