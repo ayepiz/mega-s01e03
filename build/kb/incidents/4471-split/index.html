@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="../../../_app/immutable/entry/start.BarkRBVP.js" rel="modulepreload">
+		<link href="../../../_app/immutable/chunks/BeKj4UM8.js" rel="modulepreload">
+		<link href="../../../_app/immutable/chunks/W8JXJZ79.js" rel="modulepreload">
+		<link href="../../../_app/immutable/entry/app.wTxQbJae.js" rel="modulepreload">
+		<link href="../../../_app/immutable/chunks/xihTtKlq.js" rel="modulepreload">
+		<link href="../../../_app/immutable/nodes/0.DH-1dZK1.js" rel="modulepreload">
+		<link href="../../../_app/immutable/nodes/5.BHUNVabc.js" rel="modulepreload">
+		<link href="../../../_app/immutable/chunks/Bp0XTnjs.js" rel="modulepreload">
+		<link href="../../../_app/immutable/chunks/DooIRhXB.js" rel="modulepreload">
+		<link href="../../../_app/immutable/chunks/CVBzP17p.js" rel="modulepreload">
+		<link href="../../../_app/immutable/chunks/CrgYNgkp.js" rel="modulepreload">
+		<!--e2jw2j--><!----><title>#4471 · three problems, not one · support kb</title>
+		<link href="../../../_app/immutable/assets/runbook.COyw0cbZ.css" rel="stylesheet">
+		<link href="../../../_app/immutable/assets/Callout.AbLv9dM_.css" rel="stylesheet">
+		<link href="../../../_app/immutable/assets/_page.BgDqJotB.css" rel="stylesheet">
+  </head>
+  <body data-sveltekit-preload-data="hover">
+    <div style="display: contents"><!--[--><!--[0--><!--[--><!--[--><div class="kb svelte-e2jw2j"><header><a class="crumb svelte-e2jw2j" href="/kb">support desk · kb</a> <h1 class="svelte-e2jw2j">#4471 · three problems, not one</h1> <p class="meta svelte-e2jw2j"><span>owner <b>Alex Yepiz</b></span> <span class="status open svelte-e2jw2j">open</span> <span class="svelte-e2jw2j">reviewed 2026-10-29 · 1 days ago</span></p></header> <!--[-1--><!--]--> <main><p><a href="/kb/incidents/4471">#4471</a> says one issue, one fix queued. Its reports say otherwise. The desk
+merged on subject line (<a href="/kb/decisions/0001-dedupe-by-subject">decision 0001</a>), so every report
+about a wrong date landed in one ticket, whatever broke it. Read by tenant, channel and body,
+the ticket holds three problems, and the queued parser fix closes only one of them.</p> <aside class="warn svelte-17bri61"><!---->Not known. Three problems, one fix queued. Each now has a ticket of its own.<!----></aside><!----> <h2>What #4471 holds</h2> <p class="sum svelte-1op6c6"><strong>412</strong> reports merged into #4471 · <strong>3</strong> problems <span class="muted svelte-1op6c6">(427 export rows, 15 repeated)</span></p> <table><thead><tr><th>problem</th><th>reports</th><th>channels</th><th>tenants</th><th>seen</th><th>tracked in</th></tr></thead><tbody><!--[--><tr><td><code>parser</code></td><td><strong>374</strong></td><td class="muted svelte-1op6c6">app ×202 · email ×147 · form ×25</td><td>11</td><td>2026-04-01 → 2026-10-04</td><td><!--[0--><a href="https://github.com/ayepiz/mega-s01e03/issues/1">issue #1</a><!--]--></td></tr><tr><td><code>hint</code></td><td><strong>33</strong></td><td class="muted svelte-1op6c6">form ×33</td><td>3</td><td>2026-04-17 → 2026-09-22</td><td><!--[0--><a href="https://github.com/ayepiz/mega-s01e03/issues/2">issue #2</a><!--]--></td></tr><tr><td><code>one-day</code></td><td><strong>5</strong></td><td class="muted svelte-1op6c6">email ×3 · app ×2</td><td>5</td><td>2026-04-02 → 2026-10-04</td><td><!--[0--><a href="https://github.com/ayepiz/mega-s01e03/issues/3">issue #3</a><!--]--></td></tr><!--]--></tbody><tfoot class="svelte-1op6c6"><tr><td class="svelte-1op6c6">total</td><td class="svelte-1op6c6"><strong>412</strong></td><td colspan="4" class="svelte-1op6c6">every report placed once</td></tr></tfoot></table> <!--[--><p class="muted svelte-1op6c6">one-day moves (desk-notes): R-41202, R-41209, R-41236, R-41344, R-41620</p><!--]--><!----> <h2>The three problems</h2> <p><strong><code>parser</code>: the shared parser reads every date month first.</strong> Every tenant on file writes the
+day first, so 7 April comes out as 4 July. This is what #4471 describes, and the queued fix is
+for this one. It covers reports from the app, email, and the booking-v2 form.</p> <p><strong><code>hint</code>: the booking-v3 form tells people to type month first.</strong> Its date field prints <code>MM/DD/YYYY</code>, people follow it, and the form reads what they typed the tenant’s way, day first.
+Only form reports from the booking-v3 tenants have it. The parser fix does not touch this
+path: the form already reads day first. The fix is the hint, or reading the field the way the
+hint asks. #4471’s own table marks this group “not this ticket — no ticket of its own”.</p> <p><strong><code>one-day</code>: dates move by one day, not by a month.</strong> A meeting on Tuesday 12 May shows as
+Monday 11 May; a client in Lisbon gets Tuesday and one in Toronto gets Monday; an invite
+arrives before the booking was made. No month/day flip moves a date by one day, so neither fix
+above closes these. The desk already read them this way (<code>desk-notes.json</code>) and the #4471 table
+footnotes them, but counts them under <code>parser</code>. They point at time zones or a date conversion
+across them.</p> <h2>How the numbers are made</h2> <ul><li>The export has repeated rows, because pages overlap; each report counts once by id.</li> <li><code>parser</code> and <code>hint</code> come from <code>causeOf</code> in <code>causes.ts</code>: tenant locale and booking form, never
+intake’s tag. Intake’s tag disagrees with the cause in both directions.</li> <li><code>one-day</code> is the desk’s list in <code>desk-notes.json</code>, taken out before <code>causeOf</code> runs.</li> <li>The table recomputes all of it from the export on every build. If the desk merges more
+reports into #4471, the numbers move with it; the words here do not need to.</li></ul> <h2>For the desk</h2> <ul><li>Keep #4471 for <code>parser</code>. Do not close the other two when its fix ships.</li> <li>When a report reads as a one-day move, it is not a duplicate of #4471, whatever its subject.</li> <li>Decision 0001 merges on subject. Here that hid two problems since April. A new decision
+record should replace it; this page does not edit it.</li></ul> <!--[0--><p class="stamp svelte-1280m42">desk ref <b class="svelte-1280m42">DR-5HQQ-Z3XB</b></p><!--]--><!----><!----></main> <footer class="svelte-e2jw2j">Pages are written by people. Tables and charts are built from data at render time.</footer></div><!--]--><!----><!--]--><!--]--> <!--[-1--><!--]--><!--]-->
+			
+			<script>
+				{
+					__sveltekit_1qp1o7m = {
+						base: new URL("../../..", location).pathname.slice(0, -1)
+					};
+
+					const element = document.currentScript.parentElement;
+
+					Promise.all([
+						import("../../../_app/immutable/entry/start.BarkRBVP.js"),
+						import("../../../_app/immutable/entry/app.wTxQbJae.js")
+					]).then(([kit, app]) => {
+						kit.start(app, element, {
+							node_ids: [0, 5],
+							data: [null,null],
+							form: null,
+							error: null
+						});
+					});
+				}
+			</script>
+		</div>
+  </body>
+</html>

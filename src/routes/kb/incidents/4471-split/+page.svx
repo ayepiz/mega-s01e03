@@ -1,0 +1,67 @@
+---
+layout: runbook
+title: '#4471 · three problems, not one'
+owner: Alex Yepiz
+status: open
+reviewed: 2026-10-29
+signature: Alex Yepiz (ayepiz)
+---
+
+<script>
+  import ProblemTable from '#lib/kb/ProblemTable.svelte';
+  import Callout from '#lib/kb/Callout.svelte';
+  import RenderStamp from '#lib/kb/RenderStamp.svelte';
+
+  const repo = 'https://github.com/ayepiz/mega-s01e03/issues';
+  const issues = { parser: `${repo}/1`, hint: `${repo}/2`, 'one-day': `${repo}/3` };
+</script>
+
+[#4471](/kb/incidents/4471) says one issue, one fix queued. Its reports say otherwise. The desk
+merged on subject line ([decision 0001](/kb/decisions/0001-dedupe-by-subject)), so every report
+about a wrong date landed in one ticket, whatever broke it. Read by tenant, channel and body,
+the ticket holds three problems, and the queued parser fix closes only one of them.
+
+<Callout kind="warn">
+Not known. Three problems, one fix queued. Each now has a ticket of its own.
+</Callout>
+
+## What #4471 holds
+
+<ProblemTable ticket={4471} {issues} />
+
+## The three problems
+
+**`parser`: the shared parser reads every date month first.** Every tenant on file writes the
+day first, so 7 April comes out as 4 July. This is what #4471 describes, and the queued fix is
+for this one. It covers reports from the app, email, and the booking-v2 form.
+
+**`hint`: the booking-v3 form tells people to type month first.** Its date field prints
+`MM/DD/YYYY`, people follow it, and the form reads what they typed the tenant's way, day first.
+Only form reports from the booking-v3 tenants have it. The parser fix does not touch this
+path: the form already reads day first. The fix is the hint, or reading the field the way the
+hint asks. #4471's own table marks this group "not this ticket — no ticket of its own".
+
+**`one-day`: dates move by one day, not by a month.** A meeting on Tuesday 12 May shows as
+Monday 11 May; a client in Lisbon gets Tuesday and one in Toronto gets Monday; an invite
+arrives before the booking was made. No month/day flip moves a date by one day, so neither fix
+above closes these. The desk already read them this way (`desk-notes.json`) and the #4471 table
+footnotes them, but counts them under `parser`. They point at time zones or a date conversion
+across them.
+
+## How the numbers are made
+
+- The export has repeated rows, because pages overlap; each report counts once by id.
+- `parser` and `hint` come from `causeOf` in `causes.ts`: tenant locale and booking form, never
+  intake's tag. Intake's tag disagrees with the cause in both directions.
+- `one-day` is the desk's list in `desk-notes.json`, taken out before `causeOf` runs.
+- The table recomputes all of it from the export on every build. If the desk merges more
+  reports into #4471, the numbers move with it; the words here do not need to.
+
+## For the desk
+
+- Keep #4471 for `parser`. Do not close the other two when its fix ships.
+- When a report reads as a one-day move, it is not a duplicate of #4471, whatever its subject.
+- Decision 0001 merges on subject. Here that hid two problems since April. A new decision
+  record should replace it; this page does not edit it.
+
+<RenderStamp {signature} />
