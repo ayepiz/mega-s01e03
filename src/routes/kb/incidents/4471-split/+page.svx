@@ -4,7 +4,7 @@ title: '#4471 · three problems, not one'
 owner: Alex Yepiz
 status: open
 reviewed: 2026-10-29
-signature: Alex Yepiz (ayepiz)
+signature: v1.eyJzdWIiOiIxMTU3IiwiYXVkIjoiY2hhbGxlbmdlOndoYXQtaXQtc2hvd3MiLCJpYXQiOjE3OTMzMzA0MTMsImV4cCI6MTc5MzQxNjgxM30.9UzDLh2wsV0VoiJuHSmYzHUbCMvtT0HL4cbf8sm0ZlU
 ---
 
 <script>
